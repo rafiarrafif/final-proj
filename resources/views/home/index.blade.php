@@ -21,7 +21,8 @@
         <div class="content">
             <div class="plant-container">
                 @foreach ($plants as $i => $plant)
-                    <a href="" class="plant-card" id="plant-{{ $i }}">
+                    <a href="{{ route('plant.show', ['plant' => $plant->slug]) }}" class="plant-card"
+                        id="plant-{{ $i }}">
                         <div class="title-plant-card">
                             <span>Tanaman {{ $plant->id }}</span>
                             <h3>{{ $plant->name }}</h3>

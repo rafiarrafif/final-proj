@@ -54,6 +54,7 @@ class PlantController extends Controller
      */
     public function show(Plant $plant)
     {
+        return $plant;
         //
     }
 
