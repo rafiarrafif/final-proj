@@ -57,3 +57,12 @@ textarea {
     margin: 4px 0 0;
     font-weight: 400;
 }
+
+/* Untuk View Show */
+.top-spot {
+    display: flex;
+    justify-content: space-between;
+}
+.img-main-spot img {
+    width: 130px;
+}

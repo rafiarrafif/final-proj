@@ -54,8 +54,8 @@ class PlantController extends Controller
      */
     public function show(Plant $plant)
     {
-        return $plant;
-        //
+        $title = "Atur " . $plant->name . " | Suratno Tech";
+        return view('plants.view', compact('title', 'plant'));
     }
 
     /**
