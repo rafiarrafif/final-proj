@@ -1,0 +1,59 @@
+.main-content {
+    margin: 25px 20px 30px;
+}
+
+.header-title h1 {
+    color: #f4f4f4;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.content-form {
+    margin: 24px 0 0;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+.form-group label {
+    color: #b1b1b1;
+    font-size: 14px;
+}
+textarea {
+    resize: none;
+}
+.form-input {
+    font-size: 14px;
+    padding: 8px 14px;
+    background: #1d2025;
+    border: 1px solid rgba(255, 255, 255, 0);
+    color: #eaeaea;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+.form-input:focus {
+    outline: none;
+    border: 1px solid #b0a1fe;
+}
+.submit-btn {
+    border: none;
+    margin: 16px 4px 0;
+    padding: 8px;
+    border-radius: 30px;
+    background: #b0a1fe;
+    color: #121318;
+    font-weight: 500;
+}
+.cancel-btn {
+    color: #d9d9d9;
+    font-size: 12px;
+    text-align: center;
+    margin: 4px 0 0;
+    font-weight: 400;
+}
