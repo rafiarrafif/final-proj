@@ -15,9 +15,9 @@ class ViewController extends Controller
     public function index() {
         $plants = Plant::all();
         foreach ($plants as $plant) {   
-            if ($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) < -60){
+            if ($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) < -30){
                 $statuses[] = 'inactive';
-            } elseif($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) > -60){
+            } elseif($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) > -30){
                 $statuses[] = 'active';
             } elseif($plant->status == 'pending') {
                 $statuses[] = 'pending';
@@ -54,8 +54,8 @@ class ViewController extends Controller
             try{
                 $ip = FacadesRequest::ip();  
                 $data->update($update);
-                return response($ip);
-                // return response($data->trigger_shower == true ? 'shower_on' : 'shower_off');
+                // return response($ip);
+                return response($data->trigger_shower == true ? 'shower_on' : 'shower_off');
             } catch(Exception $e) {
                 return response($e);
             }

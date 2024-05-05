@@ -16,9 +16,9 @@ class APIController extends Controller
         });
 
         foreach ($data as $plant) {
-            if ($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) < -60){
+            if ($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) < -30){
                 $statuses[] = 'inactive';
-            } elseif($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) > -60){
+            } elseif($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) > -30){
                 $statuses[] = 'active';
             } elseif($plant->status == 'pending') {
                 $statuses[] = 'pending';

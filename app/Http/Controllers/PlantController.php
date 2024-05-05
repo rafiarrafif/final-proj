@@ -54,6 +54,7 @@ class PlantController extends Controller
      */
     public function show(Plant $plant)
     {
+        $plant->fahrenheit = ( intval($plant->temp) * 9/5) + 32;
         $title = "Atur " . $plant->name . " | Suratno Tech";
         return view('plants.view', compact('title', 'plant'));
     }
