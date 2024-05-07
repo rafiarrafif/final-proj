@@ -27,6 +27,7 @@
     <script>
         feather.replace();
     </script>
+    <script src="{{ asset('js/showMore.plant.js') }}"></script>
     @yield('scripts')
 </body>
 

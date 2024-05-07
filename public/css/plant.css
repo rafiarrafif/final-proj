@@ -1,5 +1,5 @@
 .main-content {
-    margin: 25px 20px 30px;
+    margin: 0px 20px 30px;
 }
 
 .header-title h1 {
@@ -60,29 +60,46 @@ textarea {
 
 /* Untuk View Show */
 .fixed-header {
+    display: flex;
+    justify-content: space-between;
     position: fixed;
     top: 0;
-    width: 100%;
+    width: -webkit-fill-available;
+    padding: 14px 16px 14px 12px;
     z-index: 9999;
+    background: rgb(31 40 49 / 54%);
+    backdrop-filter: blur(20px);
+}
+.back-btn,
+.del-btn {
+    display: flex;
+    align-items: center;
 }
 .title-plant {
     display: flex;
     justify-content: center;
-    color: #d9d9d9;
-    margin: 10px 0;
+    color: #eaeaea;
+    font-size: 18px;
+    font-weight: 500;
 }
 .bg-header {
-    position: absolute;
-    background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0.5) 0%,
-        rgba(0, 0, 0, 0) 100%
-    );
+    position: fixed;
+    background: rgb(31 40 49 / 54%);
+    backdrop-filter: blur(20px);
     width: 100%;
     height: 45px;
     top: 0;
     z-index: 9998;
 }
+
+.name-plant h1 {
+    color: #e9e9e9;
+    font-size: 26px;
+    text-align: center;
+    margin: 24px 0 0;
+    font-weight: 500;
+}
+
 .main-spot {
     margin: 86px 28px 0;
 }
@@ -140,16 +157,59 @@ textarea {
     font-weight: 500;
 }
 
-/* show-more */
+/* show-more button */
 .show-more-btn {
     display: flex;
     justify-content: center;
-    margin: 8px 0;
+    margin: 12px 0 8px;
 }
-#show-more-trigger {
+.show-more-btn .icon {
+    rotate: 45deg;
+    color: #898989;
+    font-size: 12px;
+    margin: -2px 0 0 4px;
+    transition: all 0.3s ease-in-out;
+}
+#show-more-trigger,
+#show-less-trigger {
     color: #898989;
     font-size: 12px;
     font-weight: 400;
+}
+
+/* show more content */
+.show-more-content {
+    margin: 0 -12px;
+}
+.show-more-content .heading {
+    margin: 20px 0 10px;
+    color: #d9d9d9;
+    font-size: 18px;
+    font-weight: 600;
+}
+.show-more-table {
+    font-size: 14px;
+    color: #aeaeae;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.show-more-table td {
+    padding: 5px 8px;
+}
+.show-more-table td:nth-child(odd) {
+    width: 55%;
+    color: #dedede;
+}
+.show-more-table td:nth-child(even) {
+    width: 45%;
+}
+.show-more-table tr:nth-child(even) {
+    background-color: rgba(42, 48, 56, 0.5);
+}
+.show-more-table tr:nth-child(odd) {
+    background-color: rgba(52, 59, 67, 0.5);
 }
 
 /* Untuk lineup hr */
@@ -158,4 +218,108 @@ textarea {
 }
 .lineup-2 {
     margin: 12px 0;
+}
+
+/* Container Shower Btn */
+.shower-container {
+    margin: 32px 0 0;
+}
+.shower-container .title {
+    color: #dedede;
+    font-weight: 600;
+    font-size: 20px;
+}
+.shower-card {
+    margin: 8px 0 0;
+    display: none;
+    justify-content: space-between;
+    padding: 16px 16px 16px 18px;
+    border-radius: 10px;
+    align-items: center;
+}
+.shower-card.active {
+    display: flex;
+}
+.stats {
+    font-weight: 700;
+    font-size: 22px;
+}
+.shower-btn button {
+    border: none;
+    padding: 7px 22px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+}
+.shower-card.turn-on {
+    background-color: #022811;
+}
+.shower-card.turn-on .stats {
+    color: #79ca99;
+}
+.shower-card.turn-on .shower-btn button {
+    color: #dae7df;
+    background: #0c5e28;
+}
+.shower-card.turn-off {
+    background-color: #312307;
+}
+.shower-card.turn-off .stats {
+    color: #e9c267;
+}
+.shower-card.turn-off .shower-btn button {
+    background: #c99720;
+    color: #2b220d;
+}
+.shower-card.loading {
+    background-color: #081736;
+}
+.shower-card.loading .stats {
+    color: #badcfc;
+}
+.shower-card.loading .shower-btn button {
+    padding: 14px 26px;
+    background: #316bdb;
+}
+.shower-card.disconnect {
+    background-color: #270c0c;
+}
+.shower-card.disconnect .stats {
+    color: #ea9292;
+}
+.shower-card.disconnect .shower-btn button {
+    padding: 14px 26px;
+    background: #cd2929;
+}
+
+/* Dot Loading */
+.shower-card.loading .shower-btn .loader {
+    width: 30px;
+    aspect-ratio: 4;
+    --_g: no-repeat radial-gradient(circle closest-side, #c9dafc 90%, #0000);
+    background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+    background-size: calc(100% / 3) 100%;
+    animation: l7 1s infinite linear;
+}
+.shower-card.disconnect .shower-btn .loader {
+    width: 30px;
+    aspect-ratio: 4;
+    --_g: no-repeat radial-gradient(circle closest-side, #ffdddd 90%, #0000);
+    background: var(--_g) 0% 50%, var(--_g) 50% 50%, var(--_g) 100% 50%;
+    background-size: calc(100% / 3) 100%;
+    animation: l7 1s infinite linear;
+}
+@keyframes l7 {
+    33% {
+        background-size: calc(100% / 3) 0%, calc(100% / 3) 100%,
+            calc(100% / 3) 100%;
+    }
+    50% {
+        background-size: calc(100% / 3) 100%, calc(100% / 3) 0%,
+            calc(100% / 3) 100%;
+    }
+    66% {
+        background-size: calc(100% / 3) 100%, calc(100% / 3) 100%,
+            calc(100% / 3) 0%;
+    }
 }
