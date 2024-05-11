@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataSensor;
+use App\Models\Logging;
 use App\Models\Plant;
 use Carbon\Carbon;
 use Exception;
@@ -14,6 +15,7 @@ class ViewController extends Controller
 {
     public function index() {
         $plants = Plant::all();
+        $statuses = [];
         foreach ($plants as $plant) {   
             if ($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) < -30){
                 $statuses[] = 'inactive';
@@ -24,6 +26,15 @@ class ViewController extends Controller
             }
         }
         return view('home.index', compact('plants', 'statuses'));
+    }
+
+    public function logIndex(){
+        $logs = Logging::all()->sortByDesc('created_at');
+        return view('log.index', compact('logs'));
+    }
+    public function logShow($log){
+        $loging = Logging::where('id', $log)->first();
+        return view('log.show', compact('loging'));
     }
     
     public function pending() {

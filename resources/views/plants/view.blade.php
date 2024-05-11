@@ -1,9 +1,45 @@
 @extends('plants.layouts.header')
 
 @section('content')
+    <div class="container-popup" id="turn-on-popup">
+        <div class="popup-content">
+            <div class="popup-title">
+                <h1>Yakin?</h1>
+            </div>
+            <div class="popup-description">
+                <p>Pastikan sekitar area penyiraman aman</p>
+            </div>
+            <div class="popup-action">
+                <div class="cancel-shower-btn popup-btn">
+                    <button onclick="cancelTurnOnShower()">Batal</button>
+                </div>
+                <div class="continue-shower-btn popup-btn">
+                    <button onclick="confirmTurnOnShower('{{ $plant->slug }}')">Siram</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-popup" id="turn-off-popup">
+        <div class="popup-content">
+            <div class="popup-title">
+                <h1>Yakin?</h1>
+            </div>
+            <div class="popup-description">
+                <p>Konfirmasi untuk menlanjutkan</p>
+            </div>
+            <div class="popup-action">
+                <div class="cancel-shower-btn popup-btn">
+                    <button onclick="cancelTurnOffShower()">Batal</button>
+                </div>
+                <div class="continue-shower-btn popup-btn">
+                    <button onclick="confirmTurnOffShower('{{ $plant->slug }}')">Hentikan</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="bg-header" style="display: none"></div>
     <div class="fixed-header">
-        <div class="back-btn">
+        <div class="back-btn" onclick="backToHome('{{ route('home') }}')">
             <i data-feather="chevron-left" style="stroke: #b0a1fe"></i>
         </div>
         <div class="title-plant">
@@ -17,11 +53,14 @@
         <h1>{{ $plant->name }}</h1>
     </div>
     <div class="main-content">
+        <div id="metadata" data-trigger="{{ route('shower.trigger') }}"
+            data-url="{{ route('plant.api', ['plant' => $plant->slug]) }}" data-csrf="{{ csrf_token() }}">
+        </div>
         <div class="left-content">
             <div class="main-spot">
                 <div class="top-spot">
                     <div class="content-main-spot">
-                        <h1>{{ intval($plant->temp) }}<sup>°</sup></h1>
+                        <h1 id="mainHighlight">--</h1>
                         <span>Celcius</span>
                     </div>
                     <div class="img-main-spot">
@@ -40,7 +79,7 @@
                             <i data-feather="wind" style="stroke: #d2d2d2; width: 18px"></i>
                         </div>
                         <div class="title">
-                            <span>%{{ $plant->air }}</span>
+                            <span id="airHighlight">--</span>
                         </div>
                     </div>
                     <hr class="lineup-plant lineup-2">
@@ -49,7 +88,7 @@
                             <i data-feather="thermometer" style="stroke: #d2d2d2; width: 18px"></i>
                         </div>
                         <div class="title">
-                            <span>{{ intval($plant->fahrenheit) }} °F</span>
+                            <span id="tempHighlight">--</span>
                         </div>
                     </div>
                     <hr class="lineup-plant lineup-2">
@@ -58,7 +97,7 @@
                             <i data-feather="archive" style="stroke: #d2d2d2; width: 18px"></i>
                         </div>
                         <div class="title">
-                            <span>%{{ $plant->soil }}</span>
+                            <span id="soilHighlight">--</span>
                         </div>
                     </div>
                 </div>
@@ -68,39 +107,39 @@
                         <tbody>
                             <tr>
                                 <td>Status</td>
-                                <td>Terhubung</td>
+                                <td id="connection">Terhubung</td>
                             </tr>
                             <tr>
                                 <td>Kelembaban Udara</td>
-                                <td>70%</td>
+                                <td id="airMeasure">-</td>
                             </tr>
                             <tr>
                                 <td>Kelembaban Tanah (%)</td>
-                                <td>90%</td>
+                                <td id="soilMeasurePercent">-</td>
                             </tr>
                             <tr>
                                 <td>Kelembaban Tanah</td>
-                                <td>4095</td>
+                                <td id="soilMeasure">-</td>
                             </tr>
                             <tr>
                                 <td>Suhu Celcius</td>
-                                <td>70°C</td>
+                                <td id="tempCelcius">-</td>
                             </tr>
                             <tr>
                                 <td>Suhu Fahrenheit</td>
-                                <td>70°F</td>
+                                <td id="tempFahrenheit">-</td>
                             </tr>
                             <tr>
                                 <td>Suhu Reamur</td>
-                                <td>70°R</td>
+                                <td id="tempReamur">-</td>
                             </tr>
                             <tr>
                                 <td>Suhu Kelvin</td>
-                                <td>70°K</td>
+                                <td id="tempKelvin">-</td>
                             </tr>
                             <tr>
                                 <td>Terahir Diperbarui</td>
-                                <td>3 Menit yang lalu</td>
+                                <td id="lastUpdated">-</td>
                             </tr>
                         </tbody>
                     </table>
@@ -113,16 +152,16 @@
             </div>
             <div class="shower-container">
                 <div class="title">Status Penyiraman</div>
-                <div class="shower-card active turn-on">
+                <div class="shower-card turn-on">
                     <div class="stats">Bersiaga</div>
                     <div class="shower-btn">
-                        <button onclick="turnOnShower('{{ $plant->slug }}')">Hidupkan</button>
+                        <button onclick="turnOnShower()">Hidupkan</button>
                     </div>
                 </div>
                 <div class="shower-card turn-off">
                     <div class="stats">Menyiram</div>
                     <div class="shower-btn">
-                        <button>Matikan</button>
+                        <button onclick="turnOffShower()">Matikan</button>
                     </div>
                 </div>
                 <div class="shower-card loading">

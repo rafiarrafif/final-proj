@@ -41,6 +41,8 @@ class PlantController extends Controller
             'temp' => 0,
             'soil' => 0,
             'air' => 0,
+            'trigger_shower' => 0,
+            'callback_shower' => 0,
             'status' => 'pending',
             'created_by' => auth()->user()->id,
         ];

@@ -29,4 +29,27 @@ class APIController extends Controller
             'statuses' => $statuses
         ]);
     }
+
+    public function plantIndex(Plant $plant) {
+        unset($plant->id);
+        
+        $plant->celcius = intval($plant->temp);
+        $plant->fahrenheit = intval( intval($plant->temp) * 9/5 ) + 32;
+        $plant->reamur = intval( intval($plant->temp) * 4/5 );
+        $plant->kelvin = intval( intval($plant->temp) + 273,15 );
+        $plant->soilPercent = intval( ($plant->soil/4095)*100 );
+        $plant->lastUpdated = Carbon::parse($plant->updated_at)->diffForHumans();
+
+        if ($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) < -30){
+            $plant->connection = 'Terputus';
+        } elseif($plant->status == 'active' && Carbon::now()->diffInSeconds(Carbon::parse($plant->updated_at)) > -30){
+            $plant->connection = 'Terhubung';
+        } elseif($plant->status == 'pending') {
+            $plant->connection = 'pending';
+        }
+
+        return response()->json([
+            "plant" => $plant
+        ]);
+    }
 }

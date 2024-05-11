@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DevController;
 use App\Http\Controllers\PlantController;
+use App\Http\Controllers\ShowerController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,9 +28,14 @@ Route::name('google.')->group(function () {
 Route::middleware('AuthenticateAcc')->group(function () {
     Route::get('/', [ViewController::class, 'index'])->name('home');
     Route::post('/api/get-data', [APIController::class, 'allIndex'])->name('getDataApi');
+    Route::post('/api/get-data/plant/{plant:slug}', [APIController::class, 'plantIndex'])->name('plant.api');
+    Route::post('/api/control/shower', [ShowerController::class, 'index'])->name('shower.trigger');
     Route::resource('/plant', PlantController::class)->missing(function (Request $request) {
         return redirect()->route('home')->with('error', 'Wrong Parameter');
     });
+
+    Route::get('/log', [ViewController::class, 'logIndex'])->name('log');
+    Route::get('/log/{log}', [ViewController::class, 'logShow'])->name('log.show');
 });
 
 

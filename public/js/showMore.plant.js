@@ -68,3 +68,7 @@ function openShowMore() {
         });
     }, 200);
 }
+
+function backToHome(loc) {
+    window.location.href = loc;
+}

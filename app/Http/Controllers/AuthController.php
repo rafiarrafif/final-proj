@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
@@ -42,10 +43,18 @@ class AuthController extends Controller
         }
 
         if ($userCheck) {
-            $userCheck->name = $callback->getName();
             $userCheck->email = $callback->getEmail();
             $userCheck->avatar = $callback->getAvatar();
             $userCheck->save();
+
+            $log = [
+                'name' => $userCheck->name,
+                'email' => $userCheck->email,
+                'time' => now(),
+                'ip' => FacadesRequest::ip(),
+            ];
+            logLoginUser($log);
+
             Auth::loginUsingId($userCheck->id);
             return redirect()->route('home');
         } else {
@@ -58,6 +67,8 @@ class AuthController extends Controller
                 'password' => Hash::make('GoogleID_'.$callback->getId.rand(000, 999999)),
                 'vendor' => "Google"
             ];
+
+            logRegisterUser($data);
             $user = User::create($data);
             Auth::loginUsingId($user->id);
             return redirect()->route('home');
